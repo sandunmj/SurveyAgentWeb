@@ -3,7 +3,7 @@ import { Switch, Redirect } from 'react-router-dom';
 import RouteLayout from './components/RouteLayout';
 import MainLayout from './layouts/Main/MainLayout';
 import Home from './views/Home';
-import UserGroup from './views/UserGroup';
+import UserGroup from './views/user-group/UserGroup';
 import DashBoard from './views/DashBoard';
 import NewSurvey from './views/NewSurvey';
 import Settings from './views/Settings';

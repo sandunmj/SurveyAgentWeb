@@ -12,9 +12,9 @@ export class UserGroupProvider extends Component {
     this.state = { groups: userGroups };
     this.fetchUserGroups = this.fetchUserGroups.bind(this);
     this.fetchUsers = this.fetchUsers.bind(this);
-    // this.fetchUserGroups();
+    this.fetchUserGroups();
     // this.fetchUsersEmails();
-    this.saveUserGroup(userGroups);
+    // this.saveUserGroup(userGroups);
   }
 
   fetchUserGroups() {
@@ -32,7 +32,14 @@ export class UserGroupProvider extends Component {
   }
 
   saveUserGroup(group) {
-    this.userGroupRef.set([{ id: 1, emailList: group, title: "Engineers", description: "All the Engineers" }]);
+    this.userGroupRef.set([
+      {
+        id: 1,
+        emailList: group,
+        title: "Engineers",
+        description: "All the Engineers"
+      }
+    ]);
   }
 
   render() {
@@ -49,12 +56,8 @@ const users = [
     id: 39423,
     title: "HR",
     description: "Mangers, HR emplyees  ",
-    imageUrl: "/assets/company/users.jpg",
+    imageUrl: "/assets/company/users.jpg"
   }
 ];
 
-const userGroups = [
-  "bumuthu@gmail.com",
-  "sandun@gmail.com",
-  "dimuthu@gmail.com"
-];
+const userGroups = [];

@@ -11,6 +11,59 @@ import {
     Divider
 } from '@material-ui/core';
 
+const GroupCard = props => {
+    const { className, group, ...rest } = props;
+
+    const classes = useStyles();
+
+    return (
+        <Card
+            {...rest}
+            className={clsx(classes.root, className)}
+
+        >
+            <CardContent>
+                <div className={classes.imageContainer}>
+                    <img
+                        alt="Product"
+                        className={classes.image}
+                        src={"/assets/company/users.jpg"}
+                    />
+                </div>
+                <Typography
+                    align="center"
+                    gutterBottom
+                    variant="h4"
+                >
+                    {group.title}
+                </Typography>
+                <Typography
+                    align="center"
+                    variant="body1"
+                >
+                    {group.description}
+                </Typography>
+            </CardContent>
+            <Divider />
+            <CardContent>
+                    <Typography
+                        align="center"
+                        variant="body2">
+                        {group.totalDownloads} Members
+                           </Typography>
+
+            </CardContent>
+        </Card>
+    );
+};
+
+GroupCard.propTypes = {
+    className: PropTypes.string,
+    group: PropTypes.object.isRequired
+};
+
+export default GroupCard;
+
 const useStyles = makeStyles(theme => ({
     root: {},
     imageContainer: {
@@ -36,56 +89,3 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1)
     }
 }));
-
-const GroupCard = props => {
-    const { className, product, ...rest } = props;
-
-    const classes = useStyles();
-
-    return (
-        <Card
-            {...rest}
-            className={clsx(classes.root, className)}
-
-        >
-            <CardContent>
-                <div className={classes.imageContainer}>
-                    <img
-                        alt="Product"
-                        className={classes.image}
-                        src={product.imageUrl}
-                    />
-                </div>
-                <Typography
-                    align="center"
-                    gutterBottom
-                    variant="h4"
-                >
-                    {product.title}
-                </Typography>
-                <Typography
-                    align="center"
-                    variant="body1"
-                >
-                    {product.description}
-                </Typography>
-            </CardContent>
-            <Divider />
-            <CardContent>
-                    <Typography
-                        align="center"
-                        variant="body2">
-                        {product.totalDownloads} Members
-                           </Typography>
-
-            </CardContent>
-        </Card>
-    );
-};
-
-GroupCard.propTypes = {
-    className: PropTypes.string,
-    product: PropTypes.object.isRequired
-};
-
-export default GroupCard;

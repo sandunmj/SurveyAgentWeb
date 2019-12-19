@@ -16,27 +16,6 @@ import {
   Button
 } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
-  root: {},
-  content: {
-    padding: 0
-  },
-  inner: {
-    minWidth: 1050
-  },
-  nameContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end"
-  },
-  avatar: {
-    marginRight: theme.spacing(2)
-  },
-  actions: {
-    justifyContent: "flex-end"
-  }
-}));
-
 let lastId = 1;
 
 const UsersTable = props => {
@@ -81,7 +60,7 @@ const UsersTable = props => {
 
   const handleSubmit = () => {
       console.log(empList);
-      alert("OK ?");
+
   };
 
   const clikedDelete = event => {   
@@ -235,3 +214,25 @@ UsersTable.propTypes = {
 };
 
 export default UsersTable;
+
+
+const useStyles = makeStyles(theme => ({
+  root: {},
+  content: {
+    padding: 0
+  },
+  inner: {
+    minWidth: 1050
+  },
+  nameContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end"
+  },
+  avatar: {
+    marginRight: theme.spacing(2)
+  },
+  actions: {
+    justifyContent: "flex-end"
+  }
+}));

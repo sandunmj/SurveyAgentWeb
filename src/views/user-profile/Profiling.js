@@ -9,8 +9,6 @@ import {
   rgbToHex
 } from "@material-ui/core";
 
-
-
 class Profiling extends React.Component {
   constructor(props) {
     super(props);

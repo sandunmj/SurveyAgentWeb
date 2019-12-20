@@ -5,6 +5,7 @@ import theme from "./theme";
 import { createBrowserHistory } from "history";
 import Routes from "./Routes";
 import { UserGroupProvider } from "./Providers/UserGroup";
+import { SurveyProvider } from "./Providers/Survey";
 
 function App() {
   const browserHistory = createBrowserHistory();
@@ -13,7 +14,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router history={browserHistory}>
         <UserGroupProvider>
-          <Routes />
+          <SurveyProvider>
+            <Routes />
+          </SurveyProvider>
         </UserGroupProvider>
       </Router>
     </ThemeProvider>

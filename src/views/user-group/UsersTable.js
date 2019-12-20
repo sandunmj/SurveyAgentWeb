@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { makeStyles } from "@material-ui/styles";
+import { UserListRef } from "../../Providers/UserGroup";
+import { UserGroupContext } from "../../Providers/UserGroup";
 import {
   Card,
   CardContent,
@@ -13,7 +15,10 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Button
+  Button,
+  Typography,
+  Grid,
+  Divider
 } from "@material-ui/core";
 
 let lastId = 1;
@@ -21,6 +26,7 @@ let lastId = 1;
 const UsersTable = props => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
+  const state = useContext(UserGroupContext);
 
   const { className, users, ...rest } = props;
   const [empList, setEmpList] = useState([
@@ -44,33 +50,35 @@ const UsersTable = props => {
     const empId = filedId.slice(3);
     let empList_ = empList.slice(0);
     let employee = empList_.filter(emp => emp.id.toString() == empId)[0];
-    let index =  empList_.indexOf(employee);
-  
+    let index = empList_.indexOf(employee);
 
-    const paramMap = ['id','de','em','ph'];
-    const paramMapNew = ['empId','designation','email','phone'];
+    const paramMap = ["id", "de", "em", "ph"];
+    const paramMapNew = ["empId", "designation", "email", "phone"];
     const newParam = paramMapNew[paramMap.indexOf(param)];
 
-    if (newParam) {        
-        employee[newParam] = value;
-        empList_.splice(index, 1, employee );
+    if (newParam) {
+      employee[newParam] = value;
+      empList_.splice(index, 1, employee);
     }
     setEmpList(empList_);
   };
 
   const handleSubmit = () => {
-      console.log(empList);
-
+    // UserListRef.set([]);
+    let users = state.state.userList;
+    console.log(users);
+    users = users.concat(empList);
+    UserListRef.set(users);
   };
 
-  const clikedDelete = event => {   
-    let empList_ = empList.slice(0)
-    selectedUsers.forEach(
-        user => {
-            const index = empList_.indexOf(empList_.filter(emp => emp.id === user)[0]);
-            empList_.splice(index,1)
-        }
-    );
+  const clikedDelete = event => {
+    let empList_ = empList.slice(0);
+    selectedUsers.forEach(user => {
+      const index = empList_.indexOf(
+        empList_.filter(emp => emp.id === user)[0]
+      );
+      empList_.splice(index, 1);
+    });
     setSelectedUsers([]);
     setEmpList(empList_);
   };
@@ -91,120 +99,154 @@ const UsersTable = props => {
         selectedUsers.slice(selectedIndex + 1)
       );
     }
-console.log(newSelectedUsers)
+    console.log(newSelectedUsers);
     setSelectedUsers(newSelectedUsers);
   };
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
-      <form
-        onSubmit={() => handleSubmit()}
-        onChange={event => handleFormChange(event)}
+    <div>
+      <Divider />
+      <Grid
+        style={{ marginTop: "2%", marginBottom: "2%" }}
+        container
+        justify="center"
+        spacing={4}
       >
-        <CardContent className={classes.content}>
-          <PerfectScrollbar>
-            <div className={classes.inner}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding="checkbox" >
-                      <Button color="secondary" variant="outlined" size="small" onClick = {() => clikedDelete()}>
-                        Delete
-                      </Button>
-                    </TableCell>
-                    <TableCell>Emplyee Id</TableCell>
-                    <TableCell>Designation</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Phone</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {empList.map(user => (
-                    <TableRow
-                      className={classes.tableRow}
-                      hover
-                      key={user.id}
-                      selected={selectedUsers.indexOf(user.id) !== -1}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selectedUsers.indexOf(user.id) !== -1}
-                          color="primary"
-                          onChange={event => handleSelectOne(event, user.id)}
-                          value="true"
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <TextField
-                          fullWidth
-                          id={"id_" + user.id}
-                          label="Employee Id"
-                          margin="dense"
-                          name="employeeId"
-                          variant="outlined"
-                        />
-                      </TableCell>
+        <Grid item xs={12}>
+          <Typography variant="h3"> Add New Users </Typography>
+          <Typography variant="subtitle2">
+            You can simply add a user to the system. Later on add them to a
+            group.
+          </Typography>
+        </Grid>
+      </Grid>
 
-                      <TableCell>
-                        <TextField
-                          fullWidth
-                          id={"de_" + user.id}
-                          label="Designation"
-                          margin="dense"
-                          name="designation"
-                          required
+      <Card {...rest} className={clsx(classes.root, className)}>
+        <form
+          onSubmit={() => handleSubmit()}
+          onChange={event => handleFormChange(event)}
+        >
+          <CardContent className={classes.content}>
+            <PerfectScrollbar>
+              <div className={classes.inner}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell padding="checkbox">
+                        <Button
+                          color="secondary"
                           variant="outlined"
-                        />
+                          size="small"
+                          onClick={() => clikedDelete()}
+                        >
+                          Delete
+                        </Button>
                       </TableCell>
-                      <TableCell>
-                        <TextField
-                          fullWidth
-                          id={"em_" + user.id}
-                          label="Email"
-                          margin="dense"
-                          name="email"
-                          required
-                          variant="outlined"
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <TextField
-                          fullWidth
-                          id={"ph_" + user.id}
-                          label="Phone Number"
-                          margin="dense"
-                          name="phone"
-                          required
-                          variant="outlined"
-                        />{" "}
-                      </TableCell>
+                      <TableCell>Emplyee Id</TableCell>
+                      <TableCell>Designation</TableCell>
+                      <TableCell>Email</TableCell>
+                      <TableCell>Phone</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-                <Button
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => handleNewEmployee()}
-                >
-                  New
-                </Button>
-              </Table>
+                  </TableHead>
+                  <TableBody>
+                    {empList.map(user => (
+                      <TableRow
+                        className={classes.tableRow}
+                        hover
+                        key={user.id}
+                        selected={selectedUsers.indexOf(user.id) !== -1}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={selectedUsers.indexOf(user.id) !== -1}
+                            color="primary"
+                            onChange={event => handleSelectOne(event, user.id)}
+                            value="true"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            fullWidth
+                            id={"id_" + user.id}
+                            label="Employee Id"
+                            margin="dense"
+                            name="employeeId"
+                            variant="outlined"
+                          />
+                        </TableCell>
+
+                        <TableCell>
+                          <TextField
+                            fullWidth
+                            id={"de_" + user.id}
+                            label="Designation"
+                            margin="dense"
+                            name="designation"
+                            required
+                            variant="outlined"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            fullWidth
+                            id={"em_" + user.id}
+                            label="Email"
+                            margin="dense"
+                            name="email"
+                            required
+                            variant="outlined"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            fullWidth
+                            id={"ph_" + user.id}
+                            label="Phone Number"
+                            margin="dense"
+                            name="phone"
+                            required
+                            variant="outlined"
+                          />{" "}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                <div className={classes.nameContainer}>
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => handleNewEmployee()}
+                  >
+                    New
+                  </Button>
+                </div>
+              </div>
+            </PerfectScrollbar>
+          </CardContent>
+          <CardContent>
+            <div>
+              <Grid
+                container
+                spacing={3}
+                justify="space-around"
+                style={{ marginLeft: "3%" }}
+              >
+                <Grid item xs={3}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="outlined"
+                    size="large"
+                  >
+                    Add All
+                  </Button>
+                </Grid>
+              </Grid>
             </div>
-          </PerfectScrollbar>
-        </CardContent>
-        <CardContent>
-          <div className={classes.nameContainer}>
-            <Button
-              type="submit"
-              color="primary"
-              variant="outlined"
-              size="large"
-            >
-              Create
-            </Button>
-          </div>
-        </CardContent>
-      </form>
-    </Card>
+          </CardContent>
+        </form>
+      </Card>
+    </div>
   );
 };
 
@@ -214,7 +256,6 @@ UsersTable.propTypes = {
 };
 
 export default UsersTable;
-
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -227,7 +268,9 @@ const useStyles = makeStyles(theme => ({
   nameContainer: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    marginRight: 20,
+    marginTop: 5
   },
   avatar: {
     marginRight: theme.spacing(2)

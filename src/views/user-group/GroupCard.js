@@ -49,7 +49,7 @@ const GroupCard = props => {
                     <Typography
                         align="center"
                         variant="body2">
-                        {group.totalDownloads} Members
+                        {group.emailList.length} Members
                            </Typography>
 
             </CardContent>

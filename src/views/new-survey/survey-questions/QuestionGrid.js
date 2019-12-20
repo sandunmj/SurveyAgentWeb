@@ -1,10 +1,10 @@
 import React, { Component, useContext } from "react";
 import fire from "../../../firebase/firebase-config";
-import { MenuItem, Select, Grid, TextField, Button } from "@material-ui/core";
-import { SurveyContext } from "../NewSurvey";
+import { MenuItem, Select, Grid, TextField, Button, Typography } from "@material-ui/core";
+import { SurveyContext } from "../../../Providers/Survey";
 
 class QuestionGrid extends Component {
-  // static contextType = SurveyContext;
+  static contextType = SurveyContext;
 
   constructor(props) {
     super(props);
@@ -26,9 +26,7 @@ class QuestionGrid extends Component {
     this.surveyRef = fire.database().ref("dummySurveys");
     // console.log("hello", this.props.cats);
   }
-  componentDidMount() {
-    // console.log("did mount", this.props.cats);
-  }
+
   handleNewCat() {
     this.setState(state => {
       const index = state.questions[state.questions.length - 1].index + 1;
@@ -90,145 +88,145 @@ class QuestionGrid extends Component {
     this.setState({ questions: quesList });
   }
   handleNext() {
-    console.log(this.state.questions);
-    this.surveyRef.push(this.state.questions);
+    console.log("xxx", this.context.state.surveyInfo);
+
+    // console.log(this.state.questions);
+    // this.context.actions.setSurveyInfo();
+    // this.surveyRef.push(this.state.questions);
   }
 
   render() {
     return (
-      <SurveyContext.Consumer>
-        {context => (
-          <div>
-            <p> from title: {context}</p>
-
-            <div style={styles.questionLine}>
-              <form>
-                <Grid
-                  style={{ textAlign: "center" }}
-                  container
-                  spacing={3}
-                  justify="space-around"
-                >
+      <div>
+        <Grid style = {{margin: 20}} container justify="center" spacing={4}>
+          <Grid item xs={12}>
+            <Typography variant="h3"> Categories </Typography>
+            <Typography variant="subtitle2">
+              Here is the categories.
+            </Typography>
+          </Grid>
+        </Grid>
+        <div style={styles.questionLine}>
+          <form>
+            <Grid
+              style={{ textAlign: "center" }}
+              container
+              spacing={3}
+              justify="space-around"
+            >
+              <Grid item xs={1}>
+                Type
+              </Grid>
+              <Grid item xs={2}>
+                Category
+              </Grid>
+              <Grid item xs={7}>
+                Question
+              </Grid>
+              <Grid item xs={1}>
+                Weight
+              </Grid>
+              <Grid item xs={1}></Grid>
+            </Grid>
+            {this.state.questions.map(ques => (
+              <div key={ques.index}>
+                <Grid container spacing={3} justify="space-around">
                   <Grid item xs={1}>
-                    Type
+                    <Select
+                      style={{ width: 70, marginTop: 10 }}
+                      defaultValue={1}
+                      onChange={this.handleTypeChange}
+                      name={"" + ques.index}
+                    >
+                      {types.map(dropItem => (
+                        <MenuItem key={dropItem.index} value={dropItem.index}>
+                          {dropItem.val}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </Grid>
                   <Grid item xs={2}>
-                    Category
+                    <Select
+                      style={{ width: 120, marginTop: 10 }}
+                      onChange={this.handleCatChange}
+                      name={"" + ques.index}
+                    >
+                      {categories.map(dropItem => (
+                        <MenuItem key={dropItem.index} value={dropItem.index}>
+                          {dropItem.val}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </Grid>
                   <Grid item xs={7}>
-                    Question
+                    <TextField
+                      fullWidth
+                      required
+                      id={"" + ques.index}
+                      label="Question"
+                      margin="dense"
+                      name="Question"
+                      variant="outlined"
+                      onChange={this.handleQuesChange}
+                    />
                   </Grid>
                   <Grid item xs={1}>
-                    Weight
-                  </Grid>
-                  <Grid item xs={1}></Grid>
-                </Grid>
-                {this.state.questions.map(ques => (
-                  <div key={ques.index}>
-                    <Grid container spacing={3} justify="space-around">
-                      <Grid item xs={1}>
-                        <Select
-                          style={{ width: 70, marginTop: 10 }}
-                          defaultValue={1}
-                          onChange={this.handleTypeChange}
-                          name={"" + ques.index}
-                        >
-                          {types.map(dropItem => (
-                            <MenuItem
-                              key={dropItem.index}
-                              value={dropItem.index}
-                            >
-                              {dropItem.val}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Select
-                          style={{ width: 120, marginTop: 10 }}
-                          onChange={this.handleCatChange}
-                          name={"" + ques.index}
-                        >
-                          {categories.map(dropItem => (
-                            <MenuItem
-                              key={dropItem.index}
-                              value={dropItem.index}
-                            >
-                              {dropItem.val}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <TextField
-                          fullWidth
-                          required
-                          id={"" + ques.index}
-                          label="Question"
-                          margin="dense"
-                          name="Question"
-                          variant="outlined"
-                          onChange={this.handleQuesChange}
-                        />
-                      </Grid>
-                      <Grid item xs={1}>
-                        <TextField
-                          fullWidth
-                          required
-                          id={"" + ques.index}
-                          label=""
-                          margin="dense"
-                          name="Weight"
-                          variant="outlined"
-                          defaultValue={1}
-                          onChange={this.handleWeightChange}
-                        />
-                      </Grid>
-                      <Grid style={{ marginTop: 14 }} item xs={1}>
-                        <Button
-                          color="secondary"
-                          variant="outlined"
-                          size="small"
-                          onClick={() => this.clikedDelete(ques.index)}
-                        >
-                          Delete
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </div>
-                ))}
-                <Grid container spacing={3} justify="space-around">
-                  <Grid style={{ marginLeft: "12%" }} item xs={3}>
-                    <Button
-                      color="primary"
+                    <TextField
+                      fullWidth
+                      required
+                      id={"" + ques.index}
+                      label=""
+                      margin="dense"
+                      name="Weight"
                       variant="outlined"
-                      onClick={this.handleNewCat}
+                      defaultValue={1}
+                      onChange={this.handleWeightChange}
+                    />
+                  </Grid>
+                  <Grid style={{ marginTop: 14 }} item xs={1}>
+                    <Button
+                      color="secondary"
+                      variant="outlined"
+                      size="small"
+                      onClick={() => this.clikedDelete(ques.index)}
                     >
-                      New
+                      Delete
                     </Button>
                   </Grid>
                 </Grid>
-                <Grid container spacing={3} justify="space-around">
-                  <Grid
-                    style={{ marginLeft: "80%", marginBottom: "10%" }}
-                    item
-                    xs={3}
-                  >
-                    <Button
-                      size="large"
-                      color="primary"
-                      variant="outlined"
-                      onClick={this.handleNext}
-                    >
-                      Next
-                    </Button>
-                  </Grid>
-                </Grid>
-              </form>
-            </div>
-          </div>
-        )}
-      </SurveyContext.Consumer>
+              </div>
+            ))}
+            <Grid container spacing={3} justify="space-around">
+              <Grid style={{ marginLeft: "12%" }} item xs={3}>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  onClick={this.handleNewCat}
+                >
+                  New
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid container spacing={3} justify="space-around">
+              <Grid
+                style={{ marginLeft: "80%", marginBottom: "10%" }}
+                item
+                xs={3}
+              >
+                <Button
+                  size="large"
+                  color="primary"
+                  variant="outlined"
+                  onClick={this.handleNext}
+                  type="submit"
+                >
+                  Next
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </div>
     );
   }
 }

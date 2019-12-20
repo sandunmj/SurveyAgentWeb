@@ -1,19 +1,24 @@
 import React from "react";
-import { TextField, Button, Grid } from "@material-ui/core";
-import { SurveyContext } from "../NewSurvey";
-import QuestionGrid from "../survey-questions/QuestionGrid";
+import { TextField, Button, Grid, Typography } from "@material-ui/core";
+import { SurveyContext } from "../../../Providers/Survey";
 
 class SurveyTitle extends React.Component {
+  static contextType = SurveyContext;
+
   constructor(props) {
     super(props);
     this.state = {
-      categories: categories
+      categories: categories,
+      title: "",
+      desc: ""
     };
     this.handleNewCat = this.handleNewCat.bind(this);
     this.clikedDelete = this.clikedDelete.bind(this);
     this.handleNext = this.handleNext.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleDescChange = this.handleDescChange.bind(this);
   }
   handleChange(e) {
     const catList = this.state.categories.slice(0);
@@ -45,16 +50,35 @@ class SurveyTitle extends React.Component {
     catList.splice(index, 1);
     this.setState({ categories: catList });
   }
+  handleTitleChange(e) {
+    this.state.title = e.target.value;
+  }
+  handleDescChange(e) {
+    this.state.desc = e.target.value;
+  }
   handleSubmit(event) {
     console.log(event);
   }
   handleNext() {
+    const surveyInfo = {
+      title: this.state.title,
+      description: this.state.desc,
+      categories: this.state.categories
+    };
+    this.context.actions.setSurveyInfo(surveyInfo);
     this.props.parentCallback(this.state.categories);
-    
   }
   render() {
     return (
       <div>
+        <Grid style = {{margin: 20}} container justify="center" spacing={4}>
+          <Grid item xs={12}>
+            <Typography variant="h3"> New Survey </Typography>
+            <Typography variant="subtitle2">
+              You can publish a new survey.
+            </Typography>
+          </Grid>
+        </Grid>
         <form onSubmit={this.handleSubmit}>
           <div style={styles.title}>
             <TextField
@@ -65,6 +89,7 @@ class SurveyTitle extends React.Component {
               name="Title"
               required
               variant="outlined"
+              onChange={this.handleTitleChange}
             />
           </div>
           <div style={styles.description}>
@@ -75,6 +100,7 @@ class SurveyTitle extends React.Component {
               margin="dense"
               name="Description"
               variant="outlined"
+              onChange={this.handleDescChange}
             />
           </div>
         </form>
@@ -130,6 +156,7 @@ class SurveyTitle extends React.Component {
                 color="primary"
                 variant="outlined"
                 onClick={this.handleNext}
+                type="submit"
               >
                 Next
               </Button>

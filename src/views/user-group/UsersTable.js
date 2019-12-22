@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
+import { Autocomplete } from "@material-ui/lab";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { makeStyles } from "@material-ui/styles";
 import { UserListRef } from "../../Providers/UserGroup";
@@ -30,7 +30,14 @@ const UsersTable = props => {
 
   const { className, users, ...rest } = props;
   const [empList, setEmpList] = useState([
-    { id: lastId, empId: "", designation: "", phone: "", email: "" }
+    {
+      id: lastId,
+      empId: "",
+      designation: "",
+      division: "",
+      phone: "",
+      email: ""
+    }
   ]);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
@@ -38,22 +45,28 @@ const UsersTable = props => {
     lastId += 1;
     setEmpList(currentEmpList => [
       ...empList,
-      { id: lastId, empId: "", designation: "", phone: "", email: "" }
+      {
+        id: lastId,
+        empId: "",
+        designation: "",
+        division: "",
+        phone: "",
+        email: ""
+      }
     ]);
   };
 
   const handleFormChange = event => {
     const filedId = event.target.id;
     const value = event.target.value;
-
     const param = filedId.slice(0, 2);
     const empId = filedId.slice(3);
     let empList_ = empList.slice(0);
     let employee = empList_.filter(emp => emp.id.toString() == empId)[0];
     let index = empList_.indexOf(employee);
 
-    const paramMap = ["id", "de", "em", "ph"];
-    const paramMapNew = ["empId", "designation", "email", "phone"];
+    const paramMap = ["id", "de", "di", "em", "ph"];
+    const paramMapNew = ["empId", "designation", "division", "email", "phone"];
     const newParam = paramMapNew[paramMap.indexOf(param)];
 
     if (newParam) {
@@ -66,7 +79,6 @@ const UsersTable = props => {
   const handleSubmit = () => {
     // UserListRef.set([]);
     let users = state.state.userList;
-    console.log(users);
     users = users.concat(empList);
     UserListRef.set(users);
   };
@@ -99,9 +111,27 @@ const UsersTable = props => {
         selectedUsers.slice(selectedIndex + 1)
       );
     }
-    console.log(newSelectedUsers);
     setSelectedUsers(newSelectedUsers);
   };
+
+  const handleDivisionChange = (e, val) => {
+
+    const filedId = e.target.id.slice(0, 4);
+    let value = "";
+    if (val) {
+      value = val.division;
+    }
+    const empId = filedId.slice(3);
+    let empList_ = empList.slice(0);
+    let employee = empList_.filter(emp => emp.id.toString() == empId)[0];
+    let index = empList_.indexOf(employee);
+
+    employee["division"] = value;
+    empList_.splice(index, 1, employee);
+
+    setEmpList(empList_);
+  };
+
   return (
     <div>
       <Divider />
@@ -143,6 +173,7 @@ const UsersTable = props => {
                       </TableCell>
                       <TableCell>Emplyee Id</TableCell>
                       <TableCell>Designation</TableCell>
+                      <TableCell>Division</TableCell>
                       <TableCell>Email</TableCell>
                       <TableCell>Phone</TableCell>
                     </TableRow>
@@ -183,6 +214,39 @@ const UsersTable = props => {
                             name="designation"
                             required
                             variant="outlined"
+                          />
+                        </TableCell>
+                        {/* <TableCell>
+                          <TextField
+                            fullWidth
+                            id={"di_" + user.id}
+                            label="Division"
+                            margin="dense"
+                            name="division"
+                            required
+                            variant="outlined"
+                          />
+                        </TableCell> */}
+                        <TableCell>
+                          <Autocomplete
+                            id={"di_" + user.id}
+                            options={state.state.divisions}
+                            onChange={handleDivisionChange}
+                            disableClearable
+                            getOptionLabel={option => option.division}
+                            style={{ width: 160 }}
+                            renderInput={params => (
+                              <TextField
+                                {...params}
+                                id={"di_" + user.id}
+                                label="Division"
+                                margin="dense"
+                                name="division"
+                                variant="outlined"
+                                required
+                                fullWidth
+                              />
+                            )}
                           />
                         </TableCell>
                         <TableCell>
@@ -248,11 +312,6 @@ const UsersTable = props => {
       </Card>
     </div>
   );
-};
-
-UsersTable.propTypes = {
-  className: PropTypes.string,
-  users: PropTypes.array.isRequired
 };
 
 export default UsersTable;

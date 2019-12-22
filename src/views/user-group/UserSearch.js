@@ -56,7 +56,7 @@ export default class UserSearch extends Component {
 
   render() {
     return (
-      <div class={styles.root}>
+      <div className={styles.root}>
         <form>
           {/* <Grid container spacing={3} justify="space-around">
             <Grid item xs={9}>

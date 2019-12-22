@@ -4,34 +4,36 @@ import fire from "../firebase/firebase-config";
 export const UserGroupContext = React.createContext();
 export const UserGroupRef = fire.database().ref("userGroups");
 export const UserListRef = fire.database().ref("userList");
+export const DivisionsRef = fire.database().ref("divisions");
+export const UsersRef = fire.database().ref("userEmails");
 
 export class UserGroupProvider extends Component {
   constructor(props) {
     super(props);
-    this.userGroupRef = fire.database().ref("userGroups");
     this.usersRef = fire.database().ref("userEmails");
     this.state = {
       groups: userGroups,
       searchEmails: [],
       selectedGroup: newGroup,
       users: [],
-      userList: []
+      userList: [],
+      divisions: []
     };
     this.fetchUserGroups = this.fetchUserGroups.bind(this);
     this.fetchUserList = this.fetchUserList.bind(this);
-    this.saveUserEmails = this.saveUserEmails.bind(this);
-    this.saveUserGroup = this.saveUserGroup.bind(this);
-    this.saveUserList = this.saveUserList.bind(this);
+    this.fetchDivisions = this.fetchDivisions.bind(this);
 
     this.fetchUserGroups();
     this.fetchUserList();
+    this.fetchDivisions();
+    // this.saveDivisions(divisions);
     // this.saveUserList(userList);
     // this.saveUserEmails(userEmails);
     // this.saveUserGroup(dummyGroup);
   }
 
   fetchUserGroups() {
-    this.userGroupRef.once("value").then(snapshot => {
+    UserGroupRef.once("value").then(snapshot => {
       this.setState({
         groups: snapshot.val()
       });
@@ -41,19 +43,32 @@ export class UserGroupProvider extends Component {
   fetchUserList() {
     UserListRef.once("value").then(snapshot => {
       let emails = [];
-      snapshot.val().forEach(usr => {
-        emails.push({ email: usr.email });
-      });
-      this.setState({
-        userList: snapshot.val(),
-        users: emails
-      });
+      if (snapshot.val()) {
+        snapshot.val().forEach(usr => {
+          emails.push({ email: usr.email });
+        });
+        this.setState({
+          userList: snapshot.val(),
+          users: emails
+        });
+      } else {
+        this.setState({
+          userList: [],
+          users: []
+        });
+      }
     });
   }
 
+  fetchDivisions() {
+    DivisionsRef.once("value").then(snapshot => {
+      this.setState({
+        divisions: snapshot.val()
+      });
+    });
+  }
   saveUserGroup(group) {
     UserGroupRef.set(group);
-    console.log("eeeeeeeeeeeee");
   }
 
   saveUserList(userList) {
@@ -61,9 +76,12 @@ export class UserGroupProvider extends Component {
   }
 
   saveUserEmails(userEmails) {
-    this.usersRef.set(userEmails);
+    UsersRef.set(userEmails);
   }
 
+  saveDivisions() {
+    DivisionsRef.set(divisions);
+  }
   render() {
     return (
       <UserGroupContext.Provider
@@ -81,7 +99,12 @@ export class UserGroupProvider extends Component {
             setSelectedGroup: group =>
               this.setState({
                 selectedGroup: group
-              })
+              }),
+            setDivisions: divisions => {
+              this.setState({
+                divisions: divisions
+              });
+            }
           }
         }}
       >
@@ -127,4 +150,17 @@ const userEmails = [
   { email: "helloworld3@gmail.com" }
 ];
 
-const userList = [{ id: 1, empId: "", designation: "", phone: "", email: "" }];
+const userList = [
+  { id: 1, empId: "", designation: "", phone: "", email: "", division: "" }
+];
+
+const divisions = [
+  { id: 1, division: "HR" },
+  { id: 2, division: "Marketing" },
+  { id: 3, division: "Management" },
+  { id: 4, division: "Finance" },
+  { id: 5, division: "Engineering" },
+  { id: 6, division: "Sales" },
+  { id: 7, division: "IT" },
+
+];

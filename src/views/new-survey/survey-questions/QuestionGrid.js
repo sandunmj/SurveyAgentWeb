@@ -1,6 +1,13 @@
 import React, { Component, useContext } from "react";
 import fire from "../../../firebase/firebase-config";
-import { MenuItem, Select, Grid, TextField, Button, Typography } from "@material-ui/core";
+import {
+  MenuItem,
+  Select,
+  Grid,
+  TextField,
+  Button,
+  Typography
+} from "@material-ui/core";
 import { SurveyContext } from "../../../Providers/Survey";
 
 class QuestionGrid extends Component {
@@ -23,7 +30,7 @@ class QuestionGrid extends Component {
     this.handleQuesChange = this.handleQuesChange.bind(this);
     this.handleWeightChange = this.handleWeightChange.bind(this);
 
-    this.surveyRef = fire.database().ref("dummySurveys");
+    this.surveyRef = fire.database().ref("surveyList");
     // console.log("hello", this.props.cats);
   }
 
@@ -88,22 +95,25 @@ class QuestionGrid extends Component {
     this.setState({ questions: quesList });
   }
   handleNext() {
-    console.log("xxx", this.context.state.surveyInfo);
-
-    // console.log(this.state.questions);
-    // this.context.actions.setSurveyInfo();
-    // this.surveyRef.push(this.state.questions);
+    const survey = {
+      categories: this.context.state.surveyInfo.categories,
+      description: this.context.state.surveyInfo.description,
+      title: this.context.state.surveyInfo.title,
+      questions: this.state.questions,
+      users: users,
+      profiling: profilingInfo,
+      divisions: divisions
+    };
+    // this.surveyRef.push(survey);
   }
 
   render() {
     return (
       <div>
-        <Grid style = {{margin: 20}} container justify="center" spacing={4}>
+        <Grid style={{ margin: 20 }} container justify="center" spacing={4}>
           <Grid item xs={12}>
             <Typography variant="h3"> Categories </Typography>
-            <Typography variant="subtitle2">
-              Here is the categories.
-            </Typography>
+            <Typography variant="subtitle2">Here is the categories.</Typography>
           </Grid>
         </Grid>
         <div style={styles.questionLine}>
@@ -251,4 +261,48 @@ const categories = [
   { index: 5, val: "Welfare" }
 ];
 
+const profilingInfo = [
+  { id: 1, name: "Age Group", items: ["20 - 30", "30-40", "40-50", "50-60"] },
+  {
+    id: 2,
+    name: "Years of Service",
+    items: ["below 1 year", "1 - 2 years", "2 - 5 years", "more than 5 years"]
+  },
+  {
+    id: 3,
+    name: "Designation",
+    items: ["manager", "engineer", "cheif engineer", "employee"]
+  },
+  {
+    id: 4,
+    name: "Transportation",
+    items: ["by bus", "by train", "by own vehicle", "on foot"]
+  }
+];
+const users = [
+  {
+    designation: "manager",
+    email: "bumuthu@gmail.com",
+    empId: "T4564",
+    id: 1,
+    phone: "43465464",
+    division: "management"
+  },
+  {
+    designation: "manager",
+    email: "dimuthu@gmail.com",
+    empId: "T4564",
+    id: 1,
+    phone: "43465464",
+    division: "bussiness"
+  }
+];
+
+const divisions = [
+  { val: "Management", index: 0 },
+  { val: "Marketing", index: 0 },
+  { val: "Bussiness", index: 0 },
+  { val: "HR", index: 0 },
+  { val: "Finance", index: 0 }
+];
 export default QuestionGrid;

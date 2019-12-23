@@ -102,12 +102,13 @@ export default class DivisionsGrid extends Component {
               </Grid>
             </Grid>
             <Grid container spacing={3} justify="space-around">
-              <Grid style={{ marginLeft: "3%" }} item xs={3}>
+              <Grid style={{ marginLeft: "2%", marginTop:20 }} item xs={3}>
                 <Button
                   color="primary"
                   variant="outlined"
                   onClick={this.handleSetupDivisions}
                   type="submit"
+                  size="large"
                 >
                   Sutup Divisions
                 </Button>

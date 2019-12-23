@@ -3,6 +3,8 @@ import SurveyTitle from "./title-cat/SurveyTitle";
 import QuestionGrid from "./survey-questions/QuestionGrid";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import UserSetup from "./setup-users/UserSetup";
+import Sheduler from "./survey-shedule/Sheduler";
+
 
 export default class NewSurvey extends Component {
   constructor(props) {
@@ -27,6 +29,9 @@ export default class NewSurvey extends Component {
             </Route>
             <Route exact path="/newsurvey">
               <SurveyTitle parentCallback={this.callbackFromTitle} />
+            </Route>
+            <Route exact path="/newsurvey/shedule">
+              <Sheduler />
             </Route>
           </Switch>
         </Router>

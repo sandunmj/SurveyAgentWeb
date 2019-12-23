@@ -16,7 +16,8 @@ export class SurveyProvider extends Component {
       group: null,
       profiling: [],
       validProfs: [],
-      divisions: []
+      divisions: [],
+      questions: []
     };
     this.fetchCategories = this.fetchCategories.bind(this);
     this.fetchProfiles = this.fetchProfiles.bind(this);
@@ -88,6 +89,10 @@ export class SurveyProvider extends Component {
               setDivisions: divisions =>
                 this.setState({
                   divisions: divisions
+                }),
+              setQuestions: questions =>
+                this.setState({
+                  questions: questions
                 })
             }
           }}

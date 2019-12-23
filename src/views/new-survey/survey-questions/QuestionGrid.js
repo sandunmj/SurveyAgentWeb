@@ -6,9 +6,11 @@ import {
   Grid,
   TextField,
   Button,
-  Typography
+  Typography,
+  Divider
 } from "@material-ui/core";
 import { SurveyContext } from "../../../Providers/Survey";
+import ParaQuestion from "./ParaQuestion";
 
 class QuestionGrid extends Component {
   static contextType = SurveyContext;
@@ -16,12 +18,10 @@ class QuestionGrid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      questions: [
-        { index: 1, type: "MCQ", category: "", weight: 1, question: "" },
-        { index: 2, type: "MCQ", category: "", weight: 1, question: "" },
-        { index: 3, type: "MCQ", category: "", weight: 1, question: "" }
-      ]
+      questions: initQuestions,
+      nestedQuestions: []
     };
+    this.questionPlaceholder = "Question";
     this.handleNewCat = this.handleNewCat.bind(this);
     this.clikedDelete = this.clikedDelete.bind(this);
     this.handleNext = this.handleNext.bind(this);
@@ -29,9 +29,9 @@ class QuestionGrid extends Component {
     this.handleCatChange = this.handleCatChange.bind(this);
     this.handleQuesChange = this.handleQuesChange.bind(this);
     this.handleWeightChange = this.handleWeightChange.bind(this);
+    this.updateSurveyContext = this.updateSurveyContext.bind(this);
 
     this.surveyRef = fire.database().ref("surveyList");
-    
   }
 
   handleNewCat() {
@@ -42,10 +42,18 @@ class QuestionGrid extends Component {
         type: "MCQ",
         category: "",
         weight: 1,
-        question: ""
+        question: "",
+        subQuestions: [
+          {
+            index: 1,
+            weight: 1,
+            question: ""
+          }
+        ]
       });
       return { questions: questions };
     });
+    this.updateSurveyContext();
   }
 
   clikedDelete(deleteIndex) {
@@ -55,6 +63,7 @@ class QuestionGrid extends Component {
     );
     quesList.splice(index, 1);
     this.setState({ questions: quesList });
+    this.updateSurveyContext();
   }
 
   handleTypeChange(e) {
@@ -66,6 +75,24 @@ class QuestionGrid extends Component {
       t => t.index == Number(e.target.value)
     )[0].val;
     this.setState({ questions: quesList });
+
+    const questionId = Number(e.target.name);
+    const typeId = e.target.value;
+
+    let q = this.state.nestedQuestions;
+    if (typeId == "3") {
+      if (!q.includes(questionId)) {
+        q.push(questionId);
+        this.setState({
+          nestedQuestions: q
+        });
+      }
+    } else {
+      if (q.includes(questionId)) {
+        const index = q.indexOf(questionId);
+        q.splice(index, 1);
+      }
+    }
   }
 
   handleCatChange(e) {
@@ -77,6 +104,7 @@ class QuestionGrid extends Component {
       t => t.index == Number(e.target.value)
     )[0].val;
     this.setState({ questions: quesList });
+    this.updateSurveyContext();
   }
   handleQuesChange(e) {
     const quesList = this.state.questions.slice(0);
@@ -85,6 +113,7 @@ class QuestionGrid extends Component {
     );
     quesList[index].question = e.target.value;
     this.setState({ questions: quesList });
+    this.updateSurveyContext();
   }
   handleWeightChange(e) {
     const quesList = this.state.questions.slice(0);
@@ -93,19 +122,22 @@ class QuestionGrid extends Component {
     );
     quesList[index].weight = Number(e.target.value);
     this.setState({ questions: quesList });
+    this.updateSurveyContext();
   }
   handleNext() {
-    const survey = {
-      categories: this.context.state.categories,
-      description: this.context.state.surveyInfo.description,
-      title: this.context.state.surveyInfo.title,
-      questions: this.state.questions,
-      users: this.context.state.group,
-      profiling: this.context.state.validProfs,
-      divisions: this.context.state.divisions
-    };
-    const surveyId = this.surveyRef.push(survey).getKey();
-    this.currentSurveyIDsRef = fire.database().ref("currentSurveyIDs/" + surveyId).set({valid:true});
+    const { history } = this.props;
+    history.push("/newsurvey/shedule");
+  }
+
+  updateSurveyContext() {
+    this.context.state.questions = this.state.questions;
+  }
+
+  returnParaQuetion(id) {
+    if (this.state.nestedQuestions.includes(Number(id))) {
+      this.questionPlaceholder = "Paragraph";
+      return <ParaQuestion questions={this.state.questions} id={id} />;
+    }
   }
 
   render() {
@@ -126,24 +158,16 @@ class QuestionGrid extends Component {
               justify="space-around"
             >
               <Grid item xs={1}>
-                <Typography>
-                Type
-                </Typography>
+                <Typography>Type</Typography>
               </Grid>
               <Grid item xs={2}>
-              <Typography>
-                Category
-                </Typography>
+                <Typography>Category</Typography>
               </Grid>
               <Grid item xs={7}>
-              <Typography>
-                Question
-                </Typography>
+                <Typography>Question</Typography>
               </Grid>
               <Grid item xs={1}>
-              <Typography>
-                Weight
-                </Typography>
+                <Typography>Weight</Typography>
               </Grid>
               <Grid item xs={1}></Grid>
             </Grid>
@@ -213,8 +237,15 @@ class QuestionGrid extends Component {
                     </Button>
                   </Grid>
                 </Grid>
+
+                {this.returnParaQuetion(ques.index)}
+
+                <div style={{ marginBottom: 20, marginTop: 5 }}>
+                  <Divider />
+                </div>
               </div>
             ))}
+
             <Grid container spacing={3} justify="space-around">
               <Grid style={{ marginLeft: "12%" }} item xs={3}>
                 <Button
@@ -228,7 +259,7 @@ class QuestionGrid extends Component {
             </Grid>
             <Grid container spacing={3} justify="space-around">
               <Grid
-                style={{ marginLeft: "80%", marginBottom: "10%" }}
+                style={{ marginLeft: "80%", marginBottom: "30%" }}
                 item
                 xs={3}
               >
@@ -237,7 +268,7 @@ class QuestionGrid extends Component {
                   color="primary"
                   variant="outlined"
                   onClick={this.handleNext}
-                 
+                  type = "submit"
                 >
                   Next
                 </Button>
@@ -250,6 +281,51 @@ class QuestionGrid extends Component {
   }
 }
 
+const initQuestions = [
+  {
+    index: 1,
+    type: "MCQ",
+    category: "",
+    weight: 1,
+    question: "",
+    subQuestions: [
+      {
+        index: 1,
+        weight: 1,
+        question: ""
+      }
+    ]
+  },
+  {
+    index: 2,
+    type: "MCQ",
+    category: "",
+    weight: 1,
+    question: "",
+    subQuestions: [
+      {
+        index: 1,
+        weight: 1,
+        question: ""
+      }
+    ]
+  },
+  {
+    index: 3,
+    type: "MCQ",
+    category: "",
+    weight: 1,
+    question: "",
+    subQuestions: [
+      {
+        index: 1,
+        weight: 1,
+        question: ""
+      }
+    ]
+  }
+];
+
 const styles = {
   select: {
     width: 80
@@ -260,7 +336,8 @@ const styles = {
 };
 const types = [
   { index: 1, val: "MCQ" },
-  { index: 2, val: "Text" }
+  { index: 2, val: "Text" },
+  { index: 3, val: "Paragraph" }
 ];
 const categories = [
   { index: 1, val: "Sallary" },

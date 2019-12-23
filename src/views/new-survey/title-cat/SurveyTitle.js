@@ -165,7 +165,7 @@ class SurveyTitle extends React.Component {
 
             <Grid container spacing={3} justify="space-around">
               <Grid
-                style={{ marginLeft: "80%", marginBottom: "10%" }}
+                style={{ marginLeft: "80%", marginBottom: "30%" }}
                 item
                 xs={3}
               >
@@ -174,6 +174,7 @@ class SurveyTitle extends React.Component {
                   color="primary"
                   variant="outlined"
                   onClick={this.handleNext}
+                  size="large"
                   type="submit"
                 >
                   Next

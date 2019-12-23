@@ -82,7 +82,7 @@ const UserSetup = props => {
 
       <Grid container spacing={3} justify="space-around">
         <Grid
-          style={{ marginLeft: "80%", marginBottom: "5%", marginTop: "5%" }}
+          style={{ marginLeft: "80%", marginBottom: "30%", marginTop: "5%" }}
           item
           xs={3}
         >

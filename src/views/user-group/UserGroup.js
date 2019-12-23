@@ -89,7 +89,7 @@ const UserGroup = () => {
         <UsersTable userGroups={state.state.groups} />
       </div>
 
-      <div className={classes.content}>
+      <div className={classes.content} style = {{marginBottom:"30%"}}>
         <DivisionsGrid parentCallback={callbackFromDivisions} />
       </div>
     </div>

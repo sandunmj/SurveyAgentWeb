@@ -4,6 +4,7 @@ import { Grid, Typography } from "@material-ui/core";
 import GroupCard from "./GroupCard";
 import Search from "./UserSearch";
 import { UserGroupContext } from "../../Providers/UserGroup";
+import { SurveyContext } from "../../Providers/Survey";
 import { GroupTitle } from "./UserSearch";
 import DivisionsGrid from "./DivisionsGrid";
 import UsersTable from "./UsersTable";
@@ -11,6 +12,7 @@ import UsersTable from "./UsersTable";
 const UserGroup = () => {
   const classes = useStyles();
   const state = useContext(UserGroupContext);
+  const stateSurvey = useContext(SurveyContext);
 
   const handleClick = id => {
     const group = state.state.groups.filter(grp => grp.id == id)[0];
@@ -37,6 +39,9 @@ const UserGroup = () => {
     });
   };
 
+  const callbackFromDivisions = () => {
+    stateSurvey.actions.setDivisions(state.state.divisions)
+  };
   return (
     <div className={classes.root}>
       <Grid container justify="center" spacing={4}>
@@ -85,7 +90,7 @@ const UserGroup = () => {
       </div>
 
       <div className={classes.content}>
-        <DivisionsGrid />
+        <DivisionsGrid parentCallback={callbackFromDivisions} />
       </div>
     </div>
   );

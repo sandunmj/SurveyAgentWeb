@@ -2,26 +2,16 @@ import React, { Component } from "react";
 import SurveyTitle from "./title-cat/SurveyTitle";
 import QuestionGrid from "./survey-questions/QuestionGrid";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-
-// export const SurveyContext = React.createContext();
-// export const SurveyProvider = SurveyContext.Provider;
-// export const SurveyConsumer = SurveyContext.Consumer;
+import UserSetup from "./setup-users/UserSetup";
 
 export default class NewSurvey extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      categories: []
-    };
-    this.callbackFunction = this.callbackFunction.bind(this);
-    console.log(this.props.children);
+    this.callbackFromTitle = this.callbackFromTitle.bind(this);
   }
-  callbackFunction = childData => {
-    this.setState({ categories: childData });
-    this.categories = childData;
-
+  callbackFromTitle = () => {
     const { history } = this.props;
-    history.push("/newsurvey/question");
+    history.push("/newsurvey/users");
   };
 
   render() {
@@ -32,8 +22,11 @@ export default class NewSurvey extends Component {
             <Route exact path="/newsurvey/question">
               <QuestionGrid />
             </Route>
+            <Route exact path="/newsurvey/users">
+              <UserSetup />
+            </Route>
             <Route exact path="/newsurvey">
-              <SurveyTitle parentCallback={this.callbackFunction} />
+              <SurveyTitle parentCallback={this.callbackFromTitle} />
             </Route>
           </Switch>
         </Router>

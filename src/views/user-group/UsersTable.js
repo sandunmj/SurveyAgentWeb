@@ -115,7 +115,6 @@ const UsersTable = props => {
   };
 
   const handleDivisionChange = (e, val) => {
-
     const filedId = e.target.id.slice(0, 4);
     let value = "";
     if (val) {
@@ -171,11 +170,21 @@ const UsersTable = props => {
                           Delete
                         </Button>
                       </TableCell>
-                      <TableCell>Emplyee Id</TableCell>
-                      <TableCell>Designation</TableCell>
-                      <TableCell>Division</TableCell>
-                      <TableCell>Email</TableCell>
-                      <TableCell>Phone</TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        <Typography>Emplyee Id</Typography>
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        <Typography>Designation</Typography>
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        <Typography>Division</Typography>
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        <Typography>Email</Typography>
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        <Typography>Phone</Typography>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

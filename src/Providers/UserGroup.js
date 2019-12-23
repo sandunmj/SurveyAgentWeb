@@ -12,7 +12,7 @@ export class UserGroupProvider extends Component {
     super(props);
     this.usersRef = fire.database().ref("userEmails");
     this.state = {
-      groups: userGroups,
+      groups: [],
       searchEmails: [],
       selectedGroup: newGroup,
       users: [],
@@ -123,7 +123,6 @@ const users = [
   }
 ];
 
-const userGroups = [];
 
 const dummyGroup = [
   {

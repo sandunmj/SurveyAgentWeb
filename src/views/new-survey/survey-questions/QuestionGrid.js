@@ -31,7 +31,7 @@ class QuestionGrid extends Component {
     this.handleWeightChange = this.handleWeightChange.bind(this);
 
     this.surveyRef = fire.database().ref("surveyList");
-    // console.log("hello", this.props.cats);
+    
   }
 
   handleNewCat() {
@@ -96,15 +96,16 @@ class QuestionGrid extends Component {
   }
   handleNext() {
     const survey = {
-      categories: this.context.state.surveyInfo.categories,
+      categories: this.context.state.categories,
       description: this.context.state.surveyInfo.description,
       title: this.context.state.surveyInfo.title,
       questions: this.state.questions,
-      users: users,
-      profiling: profilingInfo,
-      divisions: divisions
+      users: this.context.state.group,
+      profiling: this.context.state.validProfs,
+      divisions: this.context.state.divisions
     };
-    // this.surveyRef.push(survey);
+    const surveyId = this.surveyRef.push(survey).getKey();
+    this.currentSurveyIDsRef = fire.database().ref("currentSurveyIDs/" + surveyId).set({valid:true});
   }
 
   render() {
@@ -125,16 +126,24 @@ class QuestionGrid extends Component {
               justify="space-around"
             >
               <Grid item xs={1}>
+                <Typography>
                 Type
+                </Typography>
               </Grid>
               <Grid item xs={2}>
+              <Typography>
                 Category
+                </Typography>
               </Grid>
               <Grid item xs={7}>
+              <Typography>
                 Question
+                </Typography>
               </Grid>
               <Grid item xs={1}>
+              <Typography>
                 Weight
+                </Typography>
               </Grid>
               <Grid item xs={1}></Grid>
             </Grid>
@@ -228,7 +237,7 @@ class QuestionGrid extends Component {
                   color="primary"
                   variant="outlined"
                   onClick={this.handleNext}
-                  type="submit"
+                 
                 >
                   Next
                 </Button>

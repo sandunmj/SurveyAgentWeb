@@ -45,6 +45,7 @@ export default class DivisionsGrid extends Component {
 
   handleSetupDivisions() {
     DivisionsRef.set(this.context.state.divisions);
+    this.props.parentCallback();
   }
 
   render() {

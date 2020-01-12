@@ -33,7 +33,7 @@ export const options = {
   scales: {
     xAxes: [
       {
-        barThickness: 30,
+        barThickness: 50,
         maxBarThickness: 50,
         barPercentage: 0.5,
         categoryPercentage: 0.5,
@@ -56,11 +56,9 @@ export const options = {
         gridLines: {
           borderDash: [2],
           borderDashOffset: [2],
-          color: colors.grey[200],
+          color: colors.grey[400],
           drawBorder: false,
-          zeroLineBorderDash: [2],
-          zeroLineBorderDashOffset: [2],
-          zeroLineColor: colors.grey[200]
+         
         }
       }
     ]

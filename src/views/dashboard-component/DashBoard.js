@@ -13,13 +13,17 @@ import TitleLocation from './title-wise-analysis/location/TitleLocation';
 import QuestionOverall from './question-wise-analysis/QuestionOverall';
 import QuestionDivision from './question-wise-analysis/division/QuestionDivision';
 import QuestionLocation from './question-wise-analysis/location/QuestionLocation';
+import AllQuestion from './question-wise-analysis/all-question/AllQuestion';
 import QuestionAgeGroup from './question-wise-analysis/age-group/QuestionAgeGroup';
 import QSelection from './question-wise-analysis/QSelection';
 import category from './question-wise-analysis/Category';
 import Category from './question-wise-analysis/Category';
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(4)
+    padding: theme.spacing(4),
+    backgroundColor: '#f5f5ef',
+  },
+  containers:{
   },
   content: {
     paddingTop: 150,
@@ -57,19 +61,22 @@ const DashBoard = () => {
           spacing={4}
         >
           <Grid
+            className = {classes.containers}
             item
-            lg={4}
-            md={6}
-            xl={3}
+            // lg={4}
+            // md={6}
+            // xl={3}
+            sm = {6}
             xs={12}
           >
             <UserByCompletion />
           </Grid>
           <Grid
             item
-            lg={4}
-            md={6}
-            xl={3}
+            // lg={4}
+            // md={6}
+            // xl={3}
+            sm = {6}
             xs={12}
           >
             <DivisionList />
@@ -80,18 +87,21 @@ const DashBoard = () => {
       <div className={classes.root}>
         <h3>Titlewise Analysis</h3>
         <Grid
+        justify="center"
+        alignItems="center"
           container
           spacing={4}
         >
           <Grid
             item
-            lg={4}
-            md={6}
-            xl={3}
+            lg={8}
+            md={12}
+            xl={9}
             xs={12}
           >
             <TitleOverall />
           </Grid>
+          
           <Grid
             item
             lg={8}
@@ -124,23 +134,21 @@ const DashBoard = () => {
       <div className={classes.root}>
         <h3>Questionwise Analysis</h3>
         <Grid
+        justify="center"
+        alignItems="center"
           container
           spacing={4}
         >
           <Grid
             item
-            lg={4}
-            md={6}
-            xl={3}
+            sm={6}
             xs={12}
           >
             <Category />
           </Grid>
           <Grid
             item
-            lg={4}
-            md={6}
-            xl={3}
+            sm = {6} 
             xs={12}
           >
             <QSelection />
@@ -149,19 +157,19 @@ const DashBoard = () => {
       </div>
       <div className={classes.root}>
         <Grid
+          justify="center"
+          alignItems="center"
           container
           spacing={4}
         >
           <Grid
             item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
+            xs={8}
           >
             <QuestionOverall />
           </Grid>
           <Grid
+            item
             item
             lg={8}
             md={12}
@@ -187,6 +195,11 @@ const DashBoard = () => {
             xs={12}
           >
             <QuestionLocation />
+          </Grid>
+          <Grid
+            xs
+          >
+            <AllQuestion />
           </Grid>
         </Grid>
       </div>

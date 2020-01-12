@@ -68,18 +68,23 @@ const DivisionList = props => {
                 container
                 justify="space-between"
                 >
-                    <Grid item>
+                    <Grid 
+                      alignContent = "center"
+                      item
+                      xs = {4}
+                    >
                         <Typography variant="h4">{product.name}</Typography>
-                        <Typography variant="h5">{product.progress}%</Typography>
+                      <Typography variant="h5">{product.progress}%</Typography>
+                        <ListItemAvatar>
+                          <LinearProgress 
+                              variant="determinate" 
+                              value={product.progress} 
+                              color="secondary"/>
+                          </ListItemAvatar>
                     </Grid>
+
               </Grid>
-              <ListItemAvatar>
-                <LinearProgress 
-                    variant="determinate" 
-                    value={product.progress} 
-                    color="secondary"/>
-                </ListItemAvatar>
-                <MoreVertIcon />
+              
             </ListItem>
           ))}
         </List>

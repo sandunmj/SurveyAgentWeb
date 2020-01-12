@@ -107,14 +107,12 @@ exports.addAnswer = functions.database.ref('users/{uId}/answeredSurveys/{sId}')
         snapshot => {
             const userList = snapshot.val();
             console.log(userList);
-            console.log(surveyId);
-            console.log(userId);
             const user = snapshot.val()[userId];
             console.log(user);
             
             let a = {
-                allMembers: 0,
-                receivedResponse: 0,
+                allMembers: '',
+                receivedResponse: '',
                 divisions: [],
                 categories: [],
                 questions: []

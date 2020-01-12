@@ -1,61 +1,92 @@
 import React from "react";
-import { TextField, Button, Grid } from "@material-ui/core";
-import { SurveyContext } from "../NewSurvey";
-import QuestionGrid from "../survey-questions/QuestionGrid";
+import { TextField, Button, Grid, Typography } from "@material-ui/core";
+import { SurveyContext } from "../../../Providers/Survey";
+import { CategoriesRef } from "../../../Providers/Survey";
 
 class SurveyTitle extends React.Component {
+  static contextType = SurveyContext;
+
   constructor(props) {
     super(props);
     this.state = {
-      categories: categories
+      title: "",
+      description: ""
     };
     this.handleNewCat = this.handleNewCat.bind(this);
     this.clikedDelete = this.clikedDelete.bind(this);
     this.handleNext = this.handleNext.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleDescChange = this.handleDescChange.bind(this);
+    this.handleChangeDescription =this.handleChangeDescription.bind(this);
   }
   handleChange(e) {
-    const catList = this.state.categories.slice(0);
+    const catList = this.context.state.categories.slice(0);
     const index = catList.indexOf(
-      catList.filter(cat => cat.index == e.target.id)[0]
+      catList.filter(cat => cat.id == Number(e.target.id))[0]
     );
-    catList[index] = { index: Number(e.target.id), val: e.target.value };
-    this.setState({
-      categories: catList
-    });
+    catList[index] = { id: Number(e.target.id), category: e.target.value, description:catList[index].description };
+    this.context.actions.setCategories(catList);
+  }
+  handleChangeDescription(e) {
+    const catList = this.context.state.categories.slice(0);
+    const index = catList.indexOf(
+      catList.filter(cat => cat.id == Number(e.target.id))[0]
+    );
+    catList[index] = { id: Number(e.target.id), category:catList[index].category, description: e.target.value };
+    this.context.actions.setCategories(
+      catList
+    );
   }
 
   handleNewCat() {
-    this.setState(state => {
-      const index = state.categories[state.categories.length - 1].index + 1;
-      const categories = state.categories.concat({
-        index: index,
-        val: ""
-      });
-      return { categories: categories };
+    const state = this.context.state.categories.slice(0);
+    const index = state.categories[state.categories.length - 1].index + 1;
+    const categories = state.categories.concat({
+      id: index,
+      category: "",
+      description: ""
     });
+    this.context.actions.setCategories(categories);
   }
 
   clikedDelete(deleteIndex) {
-    const catList = this.state.categories.slice(0);
+    const catList = this.context.state.categories.slice(0);
     const index = catList.indexOf(
-      catList.filter(cat => cat.index === deleteIndex)[0]
+      catList.filter(cat => cat.index == deleteIndex)[0]
     );
     catList.splice(index, 1);
-    this.setState({ categories: catList });
+    this.context.actions.setCategories( catList );
   }
-  handleSubmit(event) {
-    console.log(event);
+  handleTitleChange(e) {
+    this.state.title = e.target.value;
+  }
+  handleDescChange(e) {
+    this.state.description = e.target.value;
   }
   handleNext() {
-    this.props.parentCallback(this.state.categories);
-    
+    const surveyInfo = {
+      title: this.state.title,
+      description: this.state.description
+    };
+    this.context.actions.setSurveyInfo(surveyInfo);
+
+    this.props.parentCallback();
+
+    CategoriesRef.set(this.context.state.categories);
   }
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form>
+          <Grid style={{ margin: 20 }} container justify="center" spacing={4}>
+            <Grid item xs={12}>
+              <Typography variant="h3"> New Survey </Typography>
+              <Typography variant="subtitle2">
+                You can publish a new survey.
+              </Typography>
+            </Grid>
+          </Grid>
           <div style={styles.title}>
             <TextField
               id={"title"}
@@ -65,6 +96,7 @@ class SurveyTitle extends React.Component {
               name="Title"
               required
               variant="outlined"
+              onChange={this.handleTitleChange}
             />
           </div>
           <div style={styles.description}>
@@ -75,67 +107,82 @@ class SurveyTitle extends React.Component {
               margin="dense"
               name="Description"
               variant="outlined"
+              onChange={this.handleDescChange}
             />
           </div>
-        </form>
-        <div>
-          {this.state.categories.map(cat => (
-            <div key={cat.index} style={styles.category}>
-              <Grid container spacing={3} justify="space-around">
-                <Grid item xs={9}>
-                  <TextField
-                    fullWidth
-                    id={"" + cat.index}
-                    label="Category"
-                    margin="dense"
-                    name="Category"
-                    variant="outlined"
-                    defaultValue={cat.val}
-                    onChange={this.handleChange}
-                  />
+          <div>
+            {this.context.state.categories.map(cat => (
+              <div key={cat.id} style={styles.category}>
+                <Grid container spacing={3} justify="space-around">
+                  <Grid item xs={4}>
+                    <TextField
+                      fullWidth
+                      id={"" + cat.id}
+                      label="Category"
+                      margin="dense"
+                      name="Category"
+                      variant="outlined"
+                      defaultValue={cat.category}
+                      onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={5}>
+                    <TextField
+                      fullWidth
+                      id={"" + cat.id}
+                      label="Description"
+                      margin="dense"
+                      name="Description"
+                      variant="outlined"
+                      defaultValue={cat.description}
+                      onChange={this.handleChangeDescription}
+                    />
+                  </Grid>
+                  <Grid style={{ marginTop: 14 }} item xs={3}>
+                    <Button
+                      color="secondary"
+                      variant="outlined"
+                      size="small"
+                      onClick={() => this.clikedDelete(cat.id)}
+                    >
+                      Delete
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid style={{ marginTop: 14 }} item xs={3}>
-                  <Button
-                    color="secondary"
-                    variant="outlined"
-                    size="small"
-                    onClick={() => this.clikedDelete(cat.index)}
-                  >
-                    Delete
-                  </Button>
-                </Grid>
+              </div>
+            ))}
+            <Grid container spacing={3} justify="space-around">
+              <Grid style={{ marginLeft: "12%" }} item xs={3}>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  onClick={this.handleNewCat}
+                >
+                  New
+                </Button>
               </Grid>
-            </div>
-          ))}
-          <Grid container spacing={3} justify="space-around">
-            <Grid style={{ marginLeft: "12%" }} item xs={3}>
-              <Button
-                color="primary"
-                variant="outlined"
-                onClick={this.handleNewCat}
-              >
-                New
-              </Button>
             </Grid>
-          </Grid>
 
-          <Grid container spacing={3} justify="space-around">
-            <Grid
-              style={{ marginLeft: "80%", marginBottom: "10%" }}
-              item
-              xs={3}
-            >
-              <Button
-                size="large"
-                color="primary"
-                variant="outlined"
-                onClick={this.handleNext}
+            <Grid container spacing={3} justify="space-around">
+              <Grid
+                style={{ marginLeft: "80%", marginBottom: "30%" }}
+                item
+                xs={3}
               >
-                Next
-              </Button>
+                <Button
+                  size="large"
+                  color="primary"
+                  variant="outlined"
+                  onClick={this.handleNext}
+                  size="large"
+                  type="submit"
+                >
+                  Next
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </div>
+          </div>
+        </form>
       </div>
     );
   }
@@ -154,17 +201,21 @@ const styles = {
     margin: 20
   },
   category: {
-    margin: 20,
-    marginLeft: "30%",
-    marginRight: "30%",
+    margin: 5,
+    marginLeft: "15%",
+    marginRight: "10%",
     textAlign: "center"
   }
 };
 
 const categories = [
-  { index: 1, val: "Sallary" },
-  { index: 2, val: "Infastructure" },
-  { index: 3, val: "Management" },
-  { index: 4, val: "Promotions" },
-  { index: 5, val: "Welfare" }
+  { id: 1, category: "Sallary", description: "This is ablout sallary" },
+  {
+    id: 2,
+    category: "Infastructure",
+    description: "This is ablout Infastructure"
+  },
+  { id: 3, category: "Management", description: "This is ablout Management" },
+  { id: 4, category: "Promotions", description: "This is ablout Promotions" },
+  { id: 5, category: "Welfare", description: "This is ablout Welfare" }
 ];

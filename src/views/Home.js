@@ -36,11 +36,10 @@ const Home = () => {
         >
           <div className={classes.content}>
             <Typography variant="h1">
-              Home
+              Welcome to Survey Agent
             </Typography>
             <Typography variant="subtitle2">
-              You either tried some shady route or you came here by mistake.
-              Whichever it is, try using the navigation
+              Welcome to Survey Agent. You can make surveys customizing everything on your hands. Enjoy now!
             </Typography>
           </div>
         </Grid>

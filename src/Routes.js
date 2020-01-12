@@ -7,9 +7,11 @@ import UserGroup from "./views/user-group/UserGroup";
 import DashBoard from "./views/dashboard-component/DashBoard";
 import NewSurvey from "./views/new-survey/NewSurvey";
 import Question from "./views/new-survey/survey-questions/QuestionGrid";
+import UserSetup from "./views/new-survey/setup-users/UserSetup";
 import Settings from "./views/Settings";
-import Surveys from "./views/Surveys";
+import Surveys from "./views/surveys/Surveys";
 import UserProfile from "./views/user-profile/UserProfile";
+import Sheduler from "./views/new-survey/survey-shedule/Sheduler";
 
 const Routes = () => {
   return (
@@ -45,6 +47,18 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/newsurvey/question"
+      />
+      <RouteLayout
+        component={UserSetup}
+        exact
+        layout={MainLayout}
+        path="/newsurvey/users"
+      />
+      <RouteLayout
+        component={Sheduler}
+        exact
+        layout={MainLayout}
+        path="/newsurvey/shedule"
       />
       <RouteLayout
         component={Settings}

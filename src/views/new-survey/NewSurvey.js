@@ -2,40 +2,19 @@ import React, { Component } from "react";
 import SurveyTitle from "./title-cat/SurveyTitle";
 import QuestionGrid from "./survey-questions/QuestionGrid";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import UserSetup from "./setup-users/UserSetup";
+import Sheduler from "./survey-shedule/Sheduler";
 
-export const SurveyContext = React.createContext("init");
-export const SurveyProvider = SurveyContext.Provider;
-export const SurveyConsumer = SurveyContext.Consumer;
 
 export default class NewSurvey extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      categories: []
-    };
-    this.callbackFunction = this.callbackFunction.bind(this);
-    console.log(this.props.children);
+    this.callbackFromTitle = this.callbackFromTitle.bind(this);
   }
-  callbackFunction = childData => {
-    this.setState({ categories: childData });
-    this.categories = childData;
-
-    // this.sendContext(childData);
-
+  callbackFromTitle = () => {
     const { history } = this.props;
-    history.push("/newsurvey/question");
+    history.push("/newsurvey/users");
   };
-
-  sendContext(childData) {
-    console.log("hhhhhhhhhhhhhh");
-    return (
-      <div>
-        <SurveyProvider value={"oooooooo"}>
-          <QuestionGrid />
-        </SurveyProvider>
-      </div>
-    );
-  }
 
   render() {
     return (
@@ -43,12 +22,16 @@ export default class NewSurvey extends Component {
         <Router>
           <Switch>
             <Route exact path="/newsurvey/question">
-              <SurveyProvider value="oooo">
-                <QuestionGrid />
-              </SurveyProvider>
+              <QuestionGrid />
+            </Route>
+            <Route exact path="/newsurvey/users">
+              <UserSetup />
             </Route>
             <Route exact path="/newsurvey">
-              <SurveyTitle parentCallback={this.callbackFunction} />
+              <SurveyTitle parentCallback={this.callbackFromTitle} />
+            </Route>
+            <Route exact path="/newsurvey/shedule">
+              <Sheduler />
             </Route>
           </Switch>
         </Router>

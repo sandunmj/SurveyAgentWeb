@@ -11,40 +11,40 @@ import {
   Divider
 } from "@material-ui/core";
 
-const GroupCard = props => {
-  const { className, isSelected, group, ...rest } = props;
+const SurveyCard = props => {
+  const { className, surveyInfo, ...rest } = props;
 
   const classes = useStyles();
 
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
-      <CardContent style={isSelected ? { background: "yellow" } : {}}>
+      <CardContent >
         <div className={classes.imageContainer}>
           <img
             alt="Product"
             className={classes.image}
-            src={"/assets/company/users.jpg"}
+            src={"/assets/company/surveyLive.jpg"}
           />
         </div>
         <Typography align="center" gutterBottom variant="h4">
-          {group.title}
+          {surveyInfo.title}
         </Typography>
         <Typography align="center" variant="body1">
-          {group.description}
+          {surveyInfo.description}
         </Typography>
       </CardContent>
       <Divider />
       <CardContent>
         <Typography align="center" variant="body2">
-          {group.emailList.length} Members
+          {surveyInfo.users} Members
         </Typography>
       </CardContent>
     </Card>
   );
 };
 
-export default GroupCard;
+export default SurveyCard;
 
 const useStyles = makeStyles(theme => ({
   root: {},

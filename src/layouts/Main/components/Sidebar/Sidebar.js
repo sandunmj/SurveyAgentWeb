@@ -52,11 +52,11 @@ const Sidebar = props => {
       href: '/usergroup',
       icon: <PeopleIcon />
     },
-    {
-      title: 'User Profile',
-      href: '/userprofile',
-      icon: <RecentActorsIcon />
-    },
+    // {
+    //   title: 'User Profile',
+    //   href: '/userprofile',
+    //   icon: <RecentActorsIcon />
+    // },
     {
       title: 'Surveys',
       href: '/surveys',
@@ -71,12 +71,12 @@ const Sidebar = props => {
       title: 'DashBoard',
       href: '/dashboard',
       icon: <TimelineIcon />
-    },
-    {
-      title: 'Settings',
-      href: '/settings',
-      icon: <SettingsIcon />
     }
+    // ,{
+    //   title: 'Settings',
+    //   href: '/settings',
+    //   icon: <SettingsIcon />
+    // }
   ];
 
   return (

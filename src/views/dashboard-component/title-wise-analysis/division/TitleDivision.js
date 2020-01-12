@@ -20,7 +20,11 @@ const useStyles = makeStyles(() => ({
   root: {},
   chartContainer: {
     height: 400,
-    position: 'relative'
+    position: 'relative',
+    backgroundColor: '#f5f5ef',
+  },
+  title:{
+    
   },
   actions: {
     justifyContent: 'flex-end'
@@ -38,6 +42,7 @@ const TitleDivision = props => {
       className={clsx(classes.root, className)}
     >
       <CardHeader
+        className = {classes.title}
         title="Scores by divisions"
       />
       <Divider />

@@ -2,12 +2,36 @@
 import { colors } from '@material-ui/core';
 
 export const data = {
-  labels: ['HR', 'Marketing', 'Finance', 'Engineering', 'Support', 'DevOps'],
+  labels: ['question 1', 'question  2', 'question  3', 'question  4', 'question  5', 'question  5'],
   datasets: [
     {
-      label: 'category 2',
-      backgroundColor: colors.lightBlue[600],
+      label: 'HR',
+      backgroundColor: colors.indigo[500],
+      data: [18, 5, 19, 27, 29, 19, 20]
+    },
+    {
+      label: 'Marketing',
+      backgroundColor: colors.red[400],
       data: [11, 9, 15, 22, 13, 25, 13]
+    },
+    {
+      label: 'Finance',
+      backgroundColor: colors.green[500],
+      data: [15, 12, 11, 29, 24, 22, 23]
+    },
+    {
+      label: 'Engineering',
+      backgroundColor: colors.lightBlue[600],
+      data: [7, 10, 17, 25, 18, 15, 33]
+    },{
+      label: 'Support',
+      backgroundColor: colors.red[600],
+      data: [23, 16, 27, 2, 8, 13, 3]
+    },
+    {
+      label: 'DevOps',
+      backgroundColor: colors.yellow[600],
+      data: [5, 26, 7, 15, 28, 5, 3]
     }
   ]
 };
@@ -33,16 +57,13 @@ export const options = {
   scales: {
     xAxes: [
       {
-        barThickness: 50,
-        maxBarThickness: 50,
-        barPercentage: 0.5,
-        categoryPercentage: 0.5,
+        
         ticks: {
           fontColor: colors.blueGrey[600]
         },
         gridLines: {
-          display: false,
-          drawBorder: false
+          display: true,
+          drawBorder: true
         }
       }
     ],
@@ -57,8 +78,8 @@ export const options = {
           borderDash: [2],
           borderDashOffset: [2],
           color: colors.grey[400],
-          drawBorder: false,
-          
+          drawBorder: true,
+         
         }
       }
     ]

@@ -20,7 +20,9 @@ const useStyles = makeStyles(() => ({
   root: {},
   chartContainer: {
     height: 400,
-    position: 'relative'
+    position: 'relative',
+    backgroundColor: '#f5f5ef',
+
   },
   actions: {
     justifyContent: 'flex-end'

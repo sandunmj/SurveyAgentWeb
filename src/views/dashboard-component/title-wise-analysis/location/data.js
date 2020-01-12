@@ -2,25 +2,25 @@
 import { colors } from '@material-ui/core';
 
 export const data = {
-  labels: ['Location 1', 'Location 2', 'Location 3', 'Location 4', 'Location 5', 'Location 6'],
+  labels: ['category 1', 'category 2', 'category 3', 'category 4', 'category 5', 'category 5'],
   datasets: [
     {
-      label: 'category 1',
+      label: 'Location 1',
       backgroundColor: colors.indigo[500],
       data: [18, 5, 19, 27, 29, 19, 20]
     },
     {
-      label: 'category 2',
-      backgroundColor: colors.brown[600],
+      label: 'Locationy 2',
+      backgroundColor: colors.yellow[600],
       data: [11, 9, 15, 22, 13, 25, 13]
     },
     {
-      label: 'category 3',
+      label: 'Location 3',
       backgroundColor: colors.green[500],
       data: [15, 12, 11, 29, 24, 22, 23]
     },
     {
-      label: 'category 4',
+      label: 'Location 4',
       backgroundColor: colors.lightBlue[600],
       data: [7, 10, 17, 25, 18, 15, 33]
     }
@@ -48,16 +48,16 @@ export const options = {
   scales: {
     xAxes: [
       {
-        barThickness: 12,
-        maxBarThickness: 10,
-        barPercentage: 0.5,
-        categoryPercentage: 0.5,
+        // barThickness: 12,
+        // maxBarThickness: 10,
+        // barPercentage: 0.5,
+        // categoryPercentage: 0.5,
         ticks: {
           fontColor: colors.blueGrey[600]
         },
         gridLines: {
-          display: false,
-          drawBorder: false
+          display: true,
+          drawBorder: true
         }
       }
     ],
@@ -71,11 +71,8 @@ export const options = {
         gridLines: {
           borderDash: [2],
           borderDashOffset: [2],
-          color: colors.grey[200],
-          drawBorder: false,
-          zeroLineBorderDash: [2],
-          zeroLineBorderDashOffset: [2],
-          zeroLineColor: colors.grey[200]
+          color: colors.grey[400],
+          drawBorder: true,
         }
       }
     ]

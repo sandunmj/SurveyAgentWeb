@@ -6,22 +6,22 @@ export const data = {
   datasets: [
     {
       label: 'Location 1',
-      backgroundColor: colors.indigo[500],
+      backgroundColor:  "#8601af",
       data: [18, 5, 19, 27, 29, 19, 20]
     },
     {
       label: 'Locationy 2',
-      backgroundColor: colors.yellow[600],
+      backgroundColor: "#B5651D",
       data: [11, 9, 15, 22, 13, 25, 13]
     },
     {
       label: 'Location 3',
-      backgroundColor: colors.green[500],
+      backgroundColor: "#FF9633",
       data: [15, 12, 11, 29, 24, 22, 23]
     },
     {
       label: 'Location 4',
-      backgroundColor: colors.lightBlue[600],
+      backgroundColor: "#33ACFF",
       data: [7, 10, 17, 25, 18, 15, 33]
     }
   ]
@@ -31,7 +31,8 @@ export const options = {
   responsive: true,
   maintainAspectRatio: false,
   animation: false,
-  legend: { display: false },
+  legend: { display: true,
+    position:"bottom"  },
   cornerRadius: 20,
   tooltips: {
     enabled: true,

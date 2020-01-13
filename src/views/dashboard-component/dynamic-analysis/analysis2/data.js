@@ -2,34 +2,34 @@
 import { colors } from '@material-ui/core';
 
 export const data = {
-  labels: ['category 1', 'category 2', 'category 3', 'category 4', 'category 5', 'category 5'],
+  labels: ['SE', 'SSE', 'Associate TL', 'Tech Lead', ' Team Lead'],
   datasets: [
     {
-      label: 'HR',
+      label: '0-2 years',
       backgroundColor: "#8601af",
       data: [18, 5, 19, 27, 29, 19, 20]
     },
     {
-      label: 'Marketing',
+      label: '2-4 years',
       backgroundColor: "#90ee90",
       data: [11, 9, 15, 22, 13, 25, 13]
     },
     {
-      label: 'Finance',
+      label: '4-6 years',
       backgroundColor: "#B5651D",
       data: [15, 12, 11, 29, 24, 22, 23]
     },
     {
-      label: 'Engineering',
+      label: '6-8 years',
       backgroundColor: "#33ACFF",
       data: [7, 10, 17, 25, 18, 15, 33]
     },{
-      label: 'Support',
+      label: '8-10 years',
       backgroundColor:  "#FF9633",
       data: [23, 16, 27, 2, 8, 13, 3]
     },
     {
-      label: 'DevOps',
+      label: '10-12',
       backgroundColor: colors.yellow[400],
       data: [5, 26, 7, 15, 28, 5, 3]
     }

@@ -2,36 +2,12 @@
 import { colors } from '@material-ui/core';
 
 export const data = {
-  labels: ['category 1', 'category 2', 'category 3', 'category 4', 'category 5', 'category 5'],
+  labels: ['HR', 'Marketing', 'Finance', 'Engineering', 'Support', 'DevOps'],
   datasets: [
     {
-      label: 'HR',
-      backgroundColor: "#8601af",
-      data: [18, 5, 19, 27, 29, 19, 20]
-    },
-    {
-      label: 'Marketing',
-      backgroundColor: "#90ee90",
+      label: 'category 2',
+      backgroundColor: colors.lightBlue[600],
       data: [11, 9, 15, 22, 13, 25, 13]
-    },
-    {
-      label: 'Finance',
-      backgroundColor: "#B5651D",
-      data: [15, 12, 11, 29, 24, 22, 23]
-    },
-    {
-      label: 'Engineering',
-      backgroundColor: "#33ACFF",
-      data: [7, 10, 17, 25, 18, 15, 33]
-    },{
-      label: 'Support',
-      backgroundColor:  "#FF9633",
-      data: [23, 16, 27, 2, 8, 13, 3]
-    },
-    {
-      label: 'DevOps',
-      backgroundColor: colors.yellow[400],
-      data: [5, 26, 7, 15, 28, 5, 3]
     }
   ]
 };
@@ -40,8 +16,8 @@ export const options = {
   responsive: true,
   maintainAspectRatio: false,
   animation: false,
-  legend: { display: true,
-            position:"bottom" },
+  legend: { display: false,
+    position:"bottom"  },
   cornerRadius: 20,
   tooltips: {
     enabled: true,
@@ -58,13 +34,16 @@ export const options = {
   scales: {
     xAxes: [
       {
-        
+        barThickness: 50,
+        maxBarThickness: 50,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
         ticks: {
           fontColor: colors.blueGrey[600]
         },
         gridLines: {
-          display: true,
-          drawBorder: true
+          display: false,
+          drawBorder: false
         }
       }
     ],
@@ -79,10 +58,11 @@ export const options = {
           borderDash: [2],
           borderDashOffset: [2],
           color: colors.grey[400],
-          drawBorder: true,
-         
+          drawBorder: false,
+          
         }
       }
     ]
   }
 };
+

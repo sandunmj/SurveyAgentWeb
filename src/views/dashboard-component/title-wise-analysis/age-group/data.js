@@ -6,27 +6,27 @@ export const data = {
   datasets: [
     {
       label: '15-25',
-      backgroundColor: colors.indigo[500],
+      backgroundColor: "#8601af",
       data: [18, 5, 19, 27, 29, 19, 20]
     },
     {
       label: '25-35',
-      backgroundColor: colors.red[600],
+      backgroundColor: "#90ee90" ,
       data: [11, 9, 15, 22, 13, 25, 13]
     },
     {
       label: '35-45',
-      backgroundColor: colors.green[500],
+      backgroundColor: "#B5651D",
       data: [15, 12, 11, 29, 24, 22, 23]
     },
     {
       label: '45-55',
-      backgroundColor: colors.yellow[500],
+      backgroundColor: "#33ACFF",
       data: [5, 13, 1, 19, 13, 12, 3]
     },
     {
       label: '55-65',
-      backgroundColor: colors.blue[600],
+      backgroundColor: "#FF9633",
       data: [7, 10, 17, 25, 18, 15, 33]
     }
   ]
@@ -36,7 +36,8 @@ export const options = {
   responsive: true,
   maintainAspectRatio: false,
   animation: false,
-  legend: { display: false },
+  legend: { display: true,
+    position:"bottom" },
   cornerRadius: 20,
   tooltips: {
     enabled: true,

@@ -4,7 +4,6 @@ import { Grid, Typography, card, CardHeader, IconButton, CardContent, Divider } 
 import RefreshIcon from '@material-ui/icons/Refresh';
 import clsx from 'clsx';
 import UserByCompletion from './UsersByCompletion';
-import DivisionList from './completion-by-division/DivisionList';
 import Selection from './selection';
 import TitleOverall from './title-wise-analysis/TitleOverall';
 import TitleDivision from './title-wise-analysis/division/TitleDivision';
@@ -18,6 +17,9 @@ import QuestionAgeGroup from './question-wise-analysis/age-group/QuestionAgeGrou
 import QSelection from './question-wise-analysis/QSelection';
 import category from './question-wise-analysis/Category';
 import Category from './question-wise-analysis/Category';
+import Division from './completion-by-division/Division';
+import DiscriptiveAnalysis1 from './dynamic-analysis/analysis-1/discriptive-analysis-1';
+import Analysis2 from './dynamic-analysis/analysis2/Analysis2';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(4),
@@ -57,29 +59,29 @@ const DashBoard = () => {
       <div className={classes.root}>
         <h3>Overall Participation</h3>
         <Grid
+          justify="center"
+          alignItems="center"
           container
           spacing={4}
         >
           <Grid
             className = {classes.containers}
             item
-            // lg={4}
-            // md={6}
-            // xl={3}
-            sm = {6}
+            lg={8}
+            md={12}
+            xl={9}
             xs={12}
           >
             <UserByCompletion />
           </Grid>
           <Grid
             item
-            // lg={4}
-            // md={6}
-            // xl={3}
-            sm = {6}
+            lg={8}
+            md={12}
+            xl={9}
             xs={12}
           >
-            <DivisionList />
+            <Division />
           </Grid>
         </Grid>
         <Divider />
@@ -87,8 +89,8 @@ const DashBoard = () => {
       <div className={classes.root}>
         <h3>Titlewise Analysis</h3>
         <Grid
-        justify="center"
-        alignItems="center"
+          justify="center"
+          alignItems="center"
           container
           spacing={4}
         >
@@ -200,6 +202,34 @@ const DashBoard = () => {
             xs
           >
             <AllQuestion />
+          </Grid>
+        </Grid>
+      </div>
+      <div className={classes.root}>
+        <h3>Discriptive Analysis</h3>
+        <Grid
+          justify="center"
+          alignItems="center"
+          container
+          spacing={4}
+        >
+          <Grid
+            item
+            lg={8}
+            md={12}
+            xl={9}
+            xs={12}
+          >
+            <DiscriptiveAnalysis1 />
+          </Grid>
+          <Grid
+            item
+            lg={8}
+            md={12}
+            xl={9}
+            xs={12}
+          >
+            <Analysis2 />
           </Grid>
         </Grid>
       </div>
